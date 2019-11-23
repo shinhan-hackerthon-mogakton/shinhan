@@ -22,4 +22,15 @@ $(document).ready(function(){
 		return false;
 	});
 	
+	$(".login_button").click(function(){
+		
+		setTimeout(function() {
+
+		  $(".login_wrap").fadeOut(300);
+		
+		}, 300);
+		
+		return false;
+	});
+	
 });

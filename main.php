@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
-
+session_start();
 include('dbcon.php');
 
 $sql = "SELECT * FROM stockmarket_news";
@@ -63,6 +63,32 @@ $conn->close();
 <!doctype html>
 <html>
 <head>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+<script>
+
+    $(document).ready(function () {
+            $("#login_button").click(function() {
+                $.ajax({
+                    type: "POST",
+                    url: "login.php",
+                    data: {
+                        username: $("#username").val(),
+                        password: $("#password").val()
+                    },
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function () {
+                        alert("An error has occured. Please contact support.");
+                    }
+                });
+            })
+        });
+</script>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>신한금융투자</title>
@@ -79,11 +105,11 @@ $conn->close();
             	<h1 class="loginTitle">LOGIN</h1>
                 <span class="login_bar"></span>
                 <form name="login" class="login_form">
-                	<input type="text" class="input" placeholder="아이디를 입력하세요.">
-                    <input type="password" class="input" placeholder="비밀번호를 입력하세요.">                    
+                	<input type="text" name="username" id="username" class="input" placeholder="아이디를 입력하세요.">
+                    <input type="password" name="password" id="password" class="input" placeholder="비밀번호를 입력하세요.">
                     <span><input type="checkbox" class="checkbox">&nbsp;자동로그인</span>
                     <span style="text-align:right;"><a href="">아이디찾기</a> / <a href="">비밀번호찾기</a></span>
-                    <input type="button" value="로그인" class="login_button">
+                    <input type="button" value="로그인" id="login_button" class="login_button">
                 </form>
                 <a href="#" class="close">x</a>
             </div>
@@ -91,14 +117,21 @@ $conn->close();
     	<div id="header">
         	<div class="navi">
                 <ul class="gnb">
-                    <li><a href=""><img src="images/top_logo.png" alt="로고"></a></li>
-                    <li><a href="#" class="menuBtn"><img src="images/menuBtn.png" alt="메뉴버튼"></a></li>
+                    <li><a href="./main.php"><img src="images/top_logo.png" alt="로고"></a></li>
+                    <li><?php if ($_SESSION['loggedin']) { ?><a href="" class="alarm"><img src="images/alarmIcon.png"><span class="cnt">1</span></a>
+                        <a href="" class="myp"><img src="images/myicon.png"></a> <?php } ?>
+                        <a href="#" class="menuBtn"><img src="images/menuBtn.png" alt="메뉴버튼"></a></li>
                 </ul>
                 <ul class="subNavi">
+                	<?php if ($_SESSION['loggedin']) { ?>
+                    <li><a href="./logout.php">로그아웃</a></li>
+                    <li><a href="#">회원정보변경</a></li>                    
+                     <?php }else{ ?>
                     <li><a href="#" class="loginBtn">로그인</a></li>
-                    <li><a href="">회원가입</a></li>
-                    <li><a href="">기술컨설팅내역</a></li>
-                    <li><a href="">블록체인장부</a></li>
+                    <li><a href="#">회원가입</a></li>
+                     <?php } ?>
+                    <li><a href="http://45.32.33.83/myCeonsult.php">기술컨설팅내역</a></li>
+                    <li><a target="_blank" href="http://198.13.44.245:3000/explorer/">블록체인 전체장부</a></li>
                 </ul>
             </div>
         </div>
@@ -109,13 +142,14 @@ $conn->close();
             <div class="article01">
             	<ul class="main_news">
                 	<li>
-                    	<div class="newsCon">
+                        <a href="http://45.32.33.83/skillDetail.php"><div class="newsCon">
                             <h3><?php echo $article_title[0];?></h3></h3>
                             <p>
                                 <?php echo $article_data[0];?>
                             </p>
                             <span>한국경제   |    <?php echo $article_date[0]; ?></span>
                         </div>
+                        </a>
                         <div class="newsImg">
                             <img src="./img/news/dowon.jpg">
                         </div>
@@ -126,7 +160,7 @@ $conn->close();
 
                         </div>
                     	<div class="newsCon">
-                            <h3>Toppick 기업명: <?php echo $keyword;?>기업:신젠타코리아 </h3></h3>
+                            <a href="http://45.32.33.83/skillDetail.php"><h3>Toppick 기업명: 살충제기업(신젠타코리아) </h3></a>
                             <p>
                                 <?php echo $keyword_title[0].$keyword_title[1].$keyword_title[2]; ?>
                             </p>
@@ -161,7 +195,7 @@ $conn->close();
                         </div>
                         <ul class="company">
                         	<li>
-                                <span class="name"><a href="">국일제지</a></span>
+                                <span class="name"><a href="http://45.32.33.83/skillDetail.php">도원닷컴</a></span>
                                 <span class="price"><a href="">6,720</a></span>
                                 <span class="percent"><a href="">100%</a></span>
                             </li>
@@ -252,7 +286,7 @@ $conn->close();
                             <li>
                                 <span class="name"><a href="">SK바이오</a></span>
                                 <span class="price"><a href="">19,850</a></span>
-                                <span class="percent"><a href="">>20%</a></span>
+                                <span class="percent"><a href="">20%</a></span>
                             </li>
                             <li>
                                 <span class="name"><a href="">국일제지</a></span>

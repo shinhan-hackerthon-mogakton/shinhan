@@ -1,3 +1,48 @@
+<?php
+
+header('Content-Type: text/html; charset=utf-8');
+session_start();
+include('dbcon.php');
+$sql = "
+    SELECT * FROM techtrade where company_code='KR2003108141';"
+;
+try{
+    $result=$conn->query($sql);
+}catch(PDOException $e){
+    die('Database error: '. $e->getMessage());
+
+}
+if ($result->num_rows > 0) {
+    // output data of each row
+
+    while($row = $result->fetch_assoc()){
+        $skill_id[]=$row['skill_code'];
+        $skill_type_name[] = $row['skilltype_name'];
+        $company_name[] = $row['company_name'];
+
+        $skill_name[] = $row['skill_name'];
+        $reg_date[] = $row['register_date'];
+
+        $id[] = $row['id'];
+        $skill_detail[]=$row['skill_deatil'];
+
+
+    }
+
+
+
+} else {
+    echo "0 results";
+}
+
+
+
+
+$conn->close();
+
+
+?>
+
 <!doctype html>
 <html>
 <head>
@@ -29,14 +74,21 @@
     	<div id="header">
         	<div class="navi">
                 <ul class="gnb">
-                    <li><a href=""><img src="images/top_logo.png" alt="로고"></a></li>
-                    <li><a href="#" class="menuBtn"><img src="images/menuBtn.png" alt="메뉴버튼"></a></li>
+                    <li><a href="./main.php"><img src="images/top_logo.png" alt="로고"></a></li>
+                    <li><?php if ($_SESSION['loggedin']) { ?><a href="" class="alarm"><img src="images/alarmIcon.png"><span class="cnt">1</span></a>
+                        <a href="" class="myp"><img src="images/myicon.png"></a> <?php } ?>
+                        <a href="#" class="menuBtn"><img src="images/menuBtn.png" alt="메뉴버튼"></a></li>
                 </ul>
                 <ul class="subNavi">
+                	<?php if ($_SESSION['loggedin']) { ?>
+                    <li><a href="./logout.php">로그아웃</a></li>
+                    <li><a href="#">회원정보변경</a></li>                    
+                     <?php }else{ ?>
                     <li><a href="#" class="loginBtn">로그인</a></li>
-                    <li><a href="">회원가입</a></li>
-                    <li><a href="">기술컨설팅내역</a></li>
-                    <li><a href="">블록체인장부</a></li>
+                    <li><a href="#">회원가입</a></li>
+                     <?php } ?>
+                    <li><a href="http://45.32.33.83/myCeonsult.php">기술컨설팅내역</a></li>
+                    <li><a target="_blank" href="http://198.13.44.245:3000/explorer/">블록체인 전체장부</a></li>
                 </ul>
             </div>
         </div>
@@ -45,11 +97,10 @@
             	<img src="images/sub_banner01.jpg" alt="메인배너">
             </div>
             <div class="article01 companyInfo">
-            	<span class="coName">SUHYUK CO.</span>
+            	<span class="coName"><?php echo $company_name[0]; ?></span>
                 <p class="coInfo">
-                	2152년 설립된 SUHYUK CO.는 이시대 최고의 사기꾼 최수혁이 설립하여
-                    <br>기존에 없던 획기적이고 악랄한 방식으로 위조지폐를 생산하여 배포한 아주 망할놈의 기업이다.
-                    
+                    도원닷컴(주)는 종합 정보 서비스를 지향합니다.
+                    <br>정보의 창출에서 정보의 유통 그리고 정보의 관리까지 최적의 사용자 환경을 구현하기 위해 정보제공, 정보시스템개발, 정보관리 등 정보사업을 위한 종합적인 서비스의 제공과 더불어 정보서비스의 해답을 드립니다.
                     <br><br>현재 이기업의 자산규모는 세계 최고 수준이며,
                     <br>대표인 최수혁은 세계에서 가장 재산이 많기로 알려져있다.
                 </p>
@@ -62,39 +113,46 @@
             	<ul class="techList">
                 	<li>
                     	<div class="thumbnail">
-                    		<a href=""><img src="https://www.ntb.kr/img/upload/ntb/TechInfo/TechAttach/239114/[20191122111210555]ed896c3365494b6a81d3586732183e24.jpg"></a>
+                    		<a href="">
+                                <img src="./img/skills/<?php echo $id[0] . ".jpg";?>" alt="">
+                            </a>
                         </div>
-                        <div class="item_txt">
-                        	<b>[화학공정]</b>                     	
-                    		<p><a href="">리튬 공기 전지, 및 그 제조 방법</a></p>
-                            <span>한양대학교 산학협력단</span>
-                            <span class="date">2019-11-22</span>
-                        </div>
-                        <a href="" class="button">MORE +</a>
+                        <a href="http://45.32.33.83/TechDetail.php"><div class="item_txt">
+                        	<b>[<?php echo $skill_type_name[0]; ?>]</b>
+                    		<p><?php echo $skill_name[0]; ?></p>
+                            <span><?php echo $company_name[0]; ?></span>
+                            <span class="date"><?php echo $reg_date[0]; ?></span>
+                        </div></a>
+                        <a href="http://45.32.33.83/skillDetail.php" class="button">MORE +</a>
                     </li>
                     <li>
                     	<div class="thumbnail">
-                    		<a href=""><img src="https://www.ntb.kr/img/upload/ntb/TechInfo/TechAttach/239114/[20191122111210555]ed896c3365494b6a81d3586732183e24.jpg"></a>
-                        </div>
-                        <div class="item_txt">
-                        	<b>[화학공정]</b>                     	
-                    		<p><a href="">리튬 공기 전지, 및 그 제조 방법</a></p>
-                            <span>한양대학교 산학협력단</span>
-                            <span class="date">2019-11-22</span>
-                        </div>
-                        <a href="" class="button">MORE +</a>
+                    		<a href="">
+
+                                <img src="./img/skills/<?php echo $id[3] . ".jpg";?>" alt="">
+                            </a>
+                                 </div>
+                        <a href="http://45.32.33.83/TechDetail.php"><div class="item_txt">
+                            <b>[<?php echo $skill_type_name[1]; ?>]</b>
+                            <p><a href=""><?php echo $skill_name[1]; ?></a></p>
+                            <span><?php echo $company_name[1]; ?></span>
+                            <span class="date"><?php echo $reg_date[1]; ?></span>
+                            </div></a>
+                        <a href="http://45.32.33.83/skillDetail.php" class="button">MORE +</a>
                     </li>
                     <li>
                     	<div class="thumbnail">
-                    		<a href=""><img src="https://www.ntb.kr/img/upload/ntb/TechInfo/TechAttach/239114/[20191122111210555]ed896c3365494b6a81d3586732183e24.jpg"></a>
-                        </div>
-                        <div class="item_txt">
-                        	<b>[화학공정]</b>                     	
-                    		<p><a href="">리튬 공기 전지, 및 그 제조 방법</a></p>
-                            <span>한양대학교 산학협력단</span>
-                            <span class="date">2019-11-22</span>
-                        </div>
-                        <a href="" class="button">MORE +</a>
+                            <a href="">
+
+                                <img src="./img/skills/<?php echo $id[2] . ".jpg";?>" alt="">
+                            </a>                        </div>
+                        <a href="http://45.32.33.83/TechDetail.php"><div class="item_txt">
+                            <b>[<?php echo $skill_type_name[2]; ?>]</b>
+                            <p><a href=""><?php echo $skill_name[2]; ?></a></p>
+                            <span><?php echo $company_name[2]; ?></span>
+                            <span class="date"><?php echo $reg_date[2]; ?></span>
+                            </div></a>
+                        <a href="http://45.32.33.83/skillDetail.php" class="button">MORE +</a>
                     </li>
                 </ul>
             </div>

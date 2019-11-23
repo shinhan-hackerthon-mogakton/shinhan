@@ -1,6 +1,6 @@
 <?php
     header('Content-Type: text/html; charset=utf-8');
-    
+    session_start();
     include ('dbcon.php');
     
     $sql = "SELECT * FROM techtrade WHERE id=1;";
@@ -72,14 +72,21 @@
     	<div id="header">
         	<div class="navi">
                 <ul class="gnb">
-                    <li><a href=""><img src="images/top_logo.png" alt="로고"></a></li>
-                    <li><a href="#" class="menuBtn"><img src="images/menuBtn.png" alt="메뉴버튼"></a></li>
+                    <li><a href="./main.php"><img src="images/top_logo.png" alt="로고"></a></li>
+                    <li><?php if ($_SESSION['loggedin']) { ?><a href="" class="alarm"><img src="images/alarmIcon.png"><span class="cnt">1</span></a>
+                        <a href="" class="myp"><img src="images/myicon.png"></a> <?php } ?>
+                        <a href="#" class="menuBtn"><img src="images/menuBtn.png" alt="메뉴버튼"></a></li>
                 </ul>
                 <ul class="subNavi">
+                	<?php if ($_SESSION['loggedin']) { ?>
+                    <li><a href="./logout.php">로그아웃</a></li>
+                    <li><a href="#">회원정보변경</a></li>                    
+                     <?php }else{ ?>
                     <li><a href="#" class="loginBtn">로그인</a></li>
-                    <li><a href="">회원가입</a></li>
-                    <li><a href="">기술컨설팅내역</a></li>
-                    <li><a href="">블록체인장부</a></li>
+                    <li><a href="#">회원가입</a></li>
+                     <?php } ?>
+                    <li><a href="http://45.32.33.83/myCeonsult.php">기술컨설팅내역</a></li>
+                    <li><a target="_blank" href="http://198.13.44.245:3000/explorer/">블록체인 전체장부</a></li>
                 </ul>
             </div>
         </div>
@@ -89,11 +96,16 @@
             </div>
             <div class="article01">
             	<h3 class="techTitle">[<?php echo $skill_name?>]</h3>
-            	<br><br>
             	<table align="center" cellpadding="0" cellspacing="0" border="0;" class="techDetail">
                 	<tr>
                     	<th>기업명</th>
                         <td colspan="5"><?php echo $company_name?></td>
+                    </tr>
+                    	<th>특허명칭</th>
+                    	<td colspan="5"><?php echo $invent_name?></td>
+                    <tr>
+                    </tr>
+                    <tr>
                     </tr>
                     <tr>
                         <th>기술분야</th>
@@ -101,39 +113,33 @@
                     	<th>기술개발 상태</th>
                         <td><?php echo $dev_state?></td>
                     	<th>NTB기술코드</th>
-                        <td colspan="5"><?php echo $skill_code?></td>
+                        <td ><?php echo $skill_code?></td>
                     </tr>
                         <th>응용분야</th>
-                        <td colspan="5"><?php echo $apply_field?></td>
-                    <tr>
-                    </tr>
-                    <tr>
+                        <td><?php echo $apply_field?></td>
                     	<th>키워드</th>
-                        <td colspan="5"><?php echo $keyword?></td>
+                        <td colspan="3"><?php echo $keyword?></td>
                     </tr>
                     <tr>
+                    	<th>전문기관명</th>
+                    	<td><?php echo $institution_name?></td>
+                    	<th>기술수명주기</th>
+                    	<td><?php echo $skill_lifetime?></td>
+                    	<th>지역구분</th>
+                    	<td><?php echo $location?></td>
+                    </tr>
+                    <tr>
+                    	<th>주관연구기관명</th>
+                    	<td><?php echo $research_name?></td>
                     	<th>판매자 정보</th>
-                        <td colspan="5">회사명 : <?php echo $developer_company?>&nbsp;&nbsp;|&nbsp;&nbsp;연락처 : <?php echo $developer_phone?></td>
+                        <td colspan="3">회사명 : <?php echo $developer_company?>&nbsp;&nbsp;|&nbsp;&nbsp;연락처 : <?php echo $developer_phone?></td>
                     </tr>
                     <tr>
-                    	<th></th>
-                    	<td></td>
+                    	<th colspan="6" align="center">개요 및 특징</th>
                     </tr>
-                    <tr>
-                    	<th></th>
-                    	<td></td>
-                    </tr>
-                    <tr>
-                    	<th></th>
-                    	<td></td>
-                    </tr>
-                    <tr>
-                    	<th></th>
-                    	<td></td>
-                    </tr>
-                </table>
-                <div style="text-align:right;"><a href="" class="techBtn">기술거래 컨설팅 신청 ></a></div>
-                <p class="techInfo">위조지폐를 하나도 똑같이 않게 생산할 수 있는기술, 똑같지는 않지만 누구나 속는다.</p>
+                </table>                
+                <p class="techInfo"><?php echo $skill_detail?></p>
+                <div style="text-align:center;"><a href="Consulting.php" class="techBtn">기술거래 컨설팅 신청 ></a></div>
             </div>
         </div>
         <div id="footer">

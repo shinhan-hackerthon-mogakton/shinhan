@@ -594,7 +594,7 @@ rticle02 {
 	color:#FFF;
 }
 .techInfo {
-	padding:20px 20px 60px 20px;
+	padding:40px 20px 50px 20px;
 	font-size:16px;
 	font-weight:400;
 	color:#535353;
@@ -606,7 +606,7 @@ rticle02 {
 	width:1200px;
 	margin:0 auto;
 	font-size:0;
-	padding:20px 0 50px;
+	padding:20px 0 20px;
 }
 .consultingBox li {
 	display:inline-block;
@@ -615,6 +615,10 @@ rticle02 {
 .consultingBox li:first-child {
 	width:790px;
 }
+.consultingBox li:last-child {
+	padding-top:17px;
+}
+	
 .consultingForm {
 	width:740px;
 	font-size:0;
@@ -695,7 +699,7 @@ rticle02 {
 	width:150px;
 	height:45px;
 	line-height:44px;
-	margin:30px auto;
+	margin:0px auto 70px;
 	text-align:center;	
 }
 
@@ -752,6 +756,62 @@ rticle02 {
 	font-weight:400;
 	color:#fff;
 	display:inline-block;
+}
+#location {
+	display:inline-block;
+	width:60%;
+	height:32px;
+	margin-top:20px;
+	box-sizing:border-box;
+	padding-left:15px;
+	border:1px solid #c9c9c9;
+	background:#fff;
+}
+#btn {
+	display:inline-block;
+	width:19%;
+	border:none;
+	font-size:15px;
+	font-weight:400;
+	height:32px;
+	text-align:center;
+	color:#fff;	
+	background:#223148;
+}
+#btn2 {
+	display:inline-block;
+	width:19%;
+	border:none;
+	margin-left:2%;
+	font-size:15px;
+	font-weight:400;
+	height:32px;
+	text-align:center;
+	color:#fff;	
+	background:#223148;
+}
+
+.alarm,
+.myp {
+   margin-right:20px;
+   vertical-align:7px;
+   position:relative;
+   display:inline-block;
+}
+.cnt {
+   display: block;
+   border-radius:50%;
+   position:absolute;
+   width:18px;
+   height:18px;
+   top:-9px;
+   right:-9px;
+   background:#ffae00;
+   color:#fff;
+   font-size:12px;
+   font-weight:400;
+   text-align:center;
+   line-height:17px;   
 }
 
 @media screen and (max-width:1279px) {
