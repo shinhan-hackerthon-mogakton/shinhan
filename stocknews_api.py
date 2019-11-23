@@ -38,7 +38,6 @@ if data['dataHeader']['successCode'] == '0':  # 정보주식뉴스목록을 호�
         payload = "{{'dataBody': {{'date': '{}', 'news_seqn': '{}', 'news_cls': 'E'}}, 'dataHeader': {{}}}}".format(d['news_date'], d['news_no1'])
         response = requests.request("POST", url, data=payload, headers=headers)
         article_d = json.loads(response.text)
-        print(article_d)
         insert_query = """ INSERT INTO stockmarket_news 
                             (news_date,
                              news_in_time,
@@ -49,6 +48,7 @@ if data['dataHeader']['successCode'] == '0':  # 정보주식뉴스목록을 호�
                              commitment_bidsize,
                              news_no1
                              ) values (%s, %s, %s, %s, %s, %s, %s, %s) """
+
         insert_tuple = (d['news_date'],           # 일자
                         d['news_in_time'],        # 시간
                         d['news_titl'],           # 뉴스 제목
@@ -58,13 +58,14 @@ if data['dataHeader']['successCode'] == '0':  # 정보주식뉴스목록을 호�
                         d['news_no1'],            # 기사번호1
                         d['shrt_code']            # 종목코드
                         )
+
         # 필요한 정보들을 DB에 저장합니다
         cursor = connection.cursor(prepared=True)
         try:
             result = cursor.execute(insert_query, insert_tuple)
             connection.commit()
-        except:
-            pass
+        except Error:
+            print(Error)
         cursor.close()
     connection.close()
 

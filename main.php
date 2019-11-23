@@ -1,30 +1,62 @@
 <?php
-
 header('Content-Type: text/html; charset=utf-8');
+
 include('dbcon.php');
-$sql = "
-    SELECT * FROM stockmarket_news WHERE news_id=1;
-    ";
+
+$sql = "SELECT * FROM stockmarket_news";
+
+try {
+    $result = $conn->query($sql);
+} catch(PDOException $e) {
+    die('Database error: '. $e->getMessage());
+
+}
+
+if ($result->num_rows > 0) {
+    // output data of each row
+
+
+    while($row = $result->fetch_assoc()) {
+        $article_id[] = $row["news_id"];
+        $article_title[] = $row["news_titl"];
+        $article_data[] = $row["news_data"];
+        $article_date[] = $row["news_date"];
+    }
+} else {
+    echo "0 results";
+}
+
+$sql2 = "SELECT * FROM keyword_news ;";
 try{
-    $result=$conn->query($sql);
+    $result=$conn->query($sql2);
 }catch(PDOException $e){
     die('Database error: '. $e->getMessage());
 
 }
 if ($result->num_rows > 0) {
     // output data of each row
-    $row = $result->fetch_assoc();
-    $article_id=$row["news_id"];
-    $article_title=$row["news_titl"];
-    $article_data=$row["news_data"];
+
+    while($row = $result->fetch_assoc()){
+        $keyword[]=$row['$keyword'];
+        $keyword_title[] = $row['title'];
+        $id[] = $row['id'];
+        $skill_detail[]=$row['skill_deatil'];
+        $publisher[]=$row['publisher'];
+        $regDate[]=$row['regDate'];
+
+
+    }
+
+
 
 } else {
     echo "0 results";
 }
 
 
-$conn->close();
 
+
+$conn->close();
 
 ?>
 
@@ -42,90 +74,201 @@ $conn->close();
 
 <body>
 	<div id="wrap">
+    	<div class="login_wrap">
+        	<div class="loginBox">
+            	<h1 class="loginTitle">LOGIN</h1>
+                <span class="login_bar"></span>
+                <form name="login" class="login_form">
+                	<input type="text" class="input" placeholder="아이디를 입력하세요.">
+                    <input type="password" class="input" placeholder="비밀번호를 입력하세요.">                    
+                    <span><input type="checkbox" class="checkbox">&nbsp;자동로그인</span>
+                    <span style="text-align:right;"><a href="">아이디찾기</a> / <a href="">비밀번호찾기</a></span>
+                    <input type="button" value="로그인" class="login_button">
+                </form>
+                <a href="#" class="close">x</a>
+            </div>
+        </div>
     	<div id="header">
-        	<ul class="gnb">
-            	<li><a href=""><img src="images/top_logo.png" alt="로고"></a></li>
-                <li><a href="#"><img src="images/menuBtn.png" alt="메뉴버튼"></a></li>
-            </ul>
+        	<div class="navi">
+                <ul class="gnb">
+                    <li><a href=""><img src="images/top_logo.png" alt="로고"></a></li>
+                    <li><a href="#" class="menuBtn"><img src="images/menuBtn.png" alt="메뉴버튼"></a></li>
+                </ul>
+                <ul class="subNavi">
+                    <li><a href="#" class="loginBtn">로그인</a></li>
+                    <li><a href="">회원가입</a></li>
+                    <li><a href="">기술컨설팅내역</a></li>
+                    <li><a href="">블록체인장부</a></li>
+                </ul>
+            </div>
         </div>
         <div class="main_contents">
         	<div class="banner">
-            	<img src="images/main_banner.jpg" alt="메인배너">
+                <img src="images/main_banner.jpg" alt="메인배너">
             </div>
             <div class="article01">
             	<ul class="main_news">
                 	<li>
                     	<div class="newsCon">
-                            <h3>DB금융투자, ISA 기존고객 대상 DLBELB 판매</h3>
+                            <h3><?php echo $article_title[0];?></h3></h3>
                             <p>
-                                DB금융투자는 신규고객과 DB금융투자 개인종합자산관리 계좌(ISA)에
-                                가입중인 기존고객을 대상으로 기타파생결합사채(DLB) '마이 퍼스트 
-                                DB DLB 제33회'와 주가연계파생 결합사채(ELB) 'DB 세이프 제509회 
-                                ELB'를...
+                                <?php echo $article_data[0];?>
                             </p>
-                            <span>한국경제   |   2019.09.09</span>
+                            <span>한국경제   |    <?php echo $article_date[0]; ?></span>
                         </div>
                         <div class="newsImg">
-                        	<img src="http://img.newspim.com/news/2019/11/22/1911221501104760.jpg">
+                            <img src="./img/news/dowon.jpg">
                         </div>
                     </li>
                     <li>
                     	<div class="newsImg">
-                            <img width="300px" height="200px" src="./img/news/<?php echo $article_id . ".jpg";?>" alt="">
+                            <img src="./img/news/egg.jpg">
+
                         </div>
                     	<div class="newsCon">
-                            <h3><?php echo $article_title?></h3>
+                            <h3>Toppick 기업명: <?php echo $keyword;?>기업:신젠타코리아 </h3></h3>
                             <p>
-                                <?php echo $article_data?>
+                                <?php echo $keyword_title[0].$keyword_title[1].$keyword_title[2]; ?>
                             </p>
-                            <span>한국경제   |   2019.09.09</span>
+                            <span><?php echo $publisher[0]; ?>   |   <?php echo $regDate[0];?></span>
                         </div>                        
                     </li>
                 </ul>
-            </div>
-            <div class="article02">
-            	<h1 class="title">등록기술</h1>
-                <span class="tit_bar"></span>
-                <p class="sub_tit">NTB에 등록된 기술 목록을 확인할 수 있습니다. </p>
-            	<ul class="news_list">
+                <ul class="main_news2">
                 	<li>
-                    	<div class="thumbnail">
-                    		<a href=""><img src="https://www.ntb.kr/img/upload/ntb/TechInfo/TechAttach/239114/[20191122111210555]ed896c3365494b6a81d3586732183e24.jpg"></a>
+                    	<div class="newsCon2">
+                            <h3><?php echo $article_title[20];?></h3>
+                            <p>
+                                <?php echo $article_data[20];?>
+                            </p>
+                            <span>한국경제   |    <?php echo $article_date[20]; ?></span>
                         </div>
-                        <div class="item_txt">
-                        	<b>[화학공정]</b>                     	
-                    		<p><a href="">리튬 공기 전지, 및 그 제조 방법</a></p>
-                            <span>한양대학교 산학협력단</span>
-                            <span class="date">2019-11-22</span>
+
+
+                        <div class="newsImg2">
+                            <img src="./img/news/23.jpg">
                         </div>
-                        <a href="" class="button">MORE +</a>
-                    </li>
-                    <li>
-                    	<div class="thumbnail">
-                    		<a href=""><img src="https://www.ntb.kr/img/upload/ntb/TechInfo/TechAttach/239114/[20191122111210555]ed896c3365494b6a81d3586732183e24.jpg"></a>
-                        </div>
-                        <div class="item_txt">
-                        	<b>[화학공정]</b>                     	
-                    		<p><a href="">리튬 공기 전지, 및 그 제조 방법</a></p>
-                            <span>한양대학교 산학협력단</span>
-                            <span class="date">2019-11-22</span>
-                        </div>
-                        <a href="" class="button">MORE +</a>
-                    </li>
-                    <li>
-                    	<div class="thumbnail">
-                    		<a href=""><img src="https://www.ntb.kr/img/upload/ntb/TechInfo/TechAttach/239114/[20191122111210555]ed896c3365494b6a81d3586732183e24.jpg"></a>
-                        </div>
-                        <div class="item_txt">
-                        	<b>[화학공정]</b>                     	
-                    		<p><a href="">리튬 공기 전지, 및 그 제조 방법</a></p>
-                            <span>한양대학교 산학협력단</span>
-                            <span class="date">2019-11-22</span>
-                        </div>
-                        <a href="" class="button">MORE +</a>
                     </li>
                 </ul>
             </div>
+            
+            <div class="article02">
+            	<ul class="coList">
+                	<li>
+                    	<div class="boxTitle">
+                        	<span class="boxName">거래량상위</span>
+                            <span class="more"><a href="">MORE +</a></span>
+                        </div>
+                        <ul class="company">
+                        	<li>
+                                <span class="name"><a href="">국일제지</a></span>
+                                <span class="price"><a href="">6,720</a></span>
+                                <span class="percent"><a href="">100%</a></span>
+                            </li>
+                            <li>
+                                <span class="name"><a href="">이아이디</a></span>
+                                <span class="price"><a href="">247</a></span>
+                                <span class="percent"><a href="">20%</a></span>
+                            </li>
+                            <li>
+                                <span class="name"><a href="">한류AJ센터</a></span>
+                                <span class="price"><a href="">1,690</a></span>
+                                <span class="percent"><a href="">10%</a></span>
+                            </li>
+                            <li>
+                                <span class="name"><a href="">SK바이오</a></span>
+                                <span class="price"><a href="">19,850</a></span>
+                                <span class="percent"><a href="">5%</a></span>
+                            </li>
+                        </ul>
+                    </li>
+					<li>
+                    	<div class="boxTitle">
+                        	<span class="boxName">주가상승률상위</span>
+                            <span class="more"><a href="">MORE +</a></span>
+                        </div>
+                        <ul class="company">
+                        	<li>
+                                <span class="name"><a href="">스카이문스</a></span>
+                                <span class="price"><a href="">999</a></span>
+                                <span class="percent"><a href="">100%</a></span>
+                            </li>
+                            <li>
+                                <span class="name"><a href="">SK바이오</a></span>
+                                <span class="price"><a href="">19,850</a></span>
+                                <span class="percent"><a href="">20%</a></span>
+                            </li>
+                            <li>
+                                <span class="name"><a href="">화신테크</a></span>
+                                <span class="price"><a href="">1,880</a></span>
+                                <span class="percent"><a href="">10%</a></span>
+                            </li>
+                            <li>
+                                <span class="name"><a href="">국일제지</a></span>
+                                <span class="price"><a href="">6,720</a></span>
+                                <span class="percent"><a href="">5%</a></span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                    	<div class="boxTitle">
+                        	<span class="boxName">외국인 연속매수</span>
+                            <span class="more"><a href="">MORE +</a></span>
+                        </div>
+                        <ul class="company">
+                        	<li>
+                                <span class="name"><a href="">신라에스지</a></span>
+                                <span class="price"><a href="">9,699</a></span>
+                                <span class="percent"><a href="">100%</a></span>
+                            </li>
+                            <li>
+                                <span class="name"><a href="">한일네트웍스</a></span>
+                                <span class="price"><a href="">4,430</a></span>
+                                <span class="percent"><a href="">20%</a></span>
+                            </li>
+                            <li>
+                                <span class="name"><a href="">만도</a></span>
+                                <span class="price"><a href="">34,600</a></span>
+                                <span class="percent"><a href="">10%</a></span>
+                            </li>
+                            <li>
+                                <span class="name"><a href="">화신테크</a></span>
+                                <span class="price"><a href="">1,890</a></span>
+                                <span class="percent"><a href="">5%</a></span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                    	<div class="boxTitle">
+                        	<span class="boxName">실시간 인기종목</span>
+                            <span class="more"><a href="">MORE +</a></span>
+                        </div>
+                        <ul class="company">
+                        	<li>
+                                <span class="name"><a href="">디에스케이</a></span>
+                                <span class="price"><a href="">9,999</a></span>
+                                <span class="percent"><a href="">100%</a></span>
+                            </li>
+                            <li>
+                                <span class="name"><a href="">SK바이오</a></span>
+                                <span class="price"><a href="">19,850</a></span>
+                                <span class="percent"><a href="">>20%</a></span>
+                            </li>
+                            <li>
+                                <span class="name"><a href="">국일제지</a></span>
+                                <span class="price"><a href="">6,720</a></span>
+                                <span class="percent"><a href="">10%</a></span>
+                            </li>
+                            <li>
+                                <span class="name"><a href="">이아이디</a></span>
+                                <span class="price"><a href="">247</a></span>
+                                <span class="percent"><a href="">5%</a></span>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
         </div>
         <div id="footer">
         	COPYRIGHT ⓒ 신한금융투자 ALL RIGHT RESERVED.

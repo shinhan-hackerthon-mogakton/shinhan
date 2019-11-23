@@ -42,24 +42,11 @@
         </div>
         <div class="contents">
         	<div class="banner">
-            	<img src="images/sub_banner01.jpg" alt="메인배너">
+            	<img src="images/sub_banner04.jpg" alt="메인배너">
             </div>
-            <div class="article01 companyInfo">
-            	<span class="coName">SUHYUK CO.</span>
-                <p class="coInfo">
-                	2152년 설립된 SUHYUK CO.는 이시대 최고의 사기꾼 최수혁이 설립하여
-                    <br>기존에 없던 획기적이고 악랄한 방식으로 위조지폐를 생산하여 배포한 아주 망할놈의 기업이다.
-                    
-                    <br><br>현재 이기업의 자산규모는 세계 최고 수준이며,
-                    <br>대표인 최수혁은 세계에서 가장 재산이 많기로 알려져있다.
-                </p>
-            </div>
-            
-            <div class="article02">
-            	<h1 class="title">등록기술</h1>
-                <span class="tit_bar"></span>
-                <p class="sub_tit">NTB에 등록된 기술 목록을 확인할 수 있습니다. </p>
-            	<ul class="techList">
+            <div class="myCon01">
+            	<h1 class="myConTitle">대상기술</h1>
+            	<ul class="news_list techList techList02">
                 	<li>
                     	<div class="thumbnail">
                     		<a href=""><img src="https://www.ntb.kr/img/upload/ntb/TechInfo/TechAttach/239114/[20191122111210555]ed896c3365494b6a81d3586732183e24.jpg"></a>
@@ -97,6 +84,30 @@
                         <a href="" class="button">MORE +</a>
                     </li>
                 </ul>
+            </div>
+            <div class="myCon02">
+            	<h1 class="myConTitle">대상기술</h1>
+                <span class="sub_myConTitle">모든 거래 내역은 블록체인에 존재합니다.</span>
+            	<table cellpadding="0" cellspacing="0" border="0;" class="myConsult">
+                          <tr>
+                              <th>이용자</th>
+                              <th>기술명</th>
+                              <th>기업 연락처</th>
+                              <th>컨설턴트 지점</th>
+                              <th>컨설턴트 연락처</th>
+                              <th>상태</th>
+                              <th>블록체인 장부확인</th>
+                          </tr>
+                          <tr>
+                              <td>김모씨</td> 
+                              <td>공공안전 연구</td>                            
+                              <td>02-000-0000</td> 
+                              <td>강남구청지점</td> 
+                              <td>02-000-0000</td> 
+                              <td>컨설팅 신청대기</td> 
+                              <td align="center" valign="middle"><a href="" class="consultBtn">거래확인</a></td> 
+                          </tr>
+                      </table>
             </div>
         </div>
         <div id="footer">
